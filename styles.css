@@ -5,7 +5,9 @@
 }
 
 body {
+    /* for vertical centering the calc */
     min-height: 100vh;
+    /*for expanding calc screen when there are lot of numbers*/
     min-width: 475px;
     display: flex;
     align-items: center;
@@ -36,12 +38,14 @@ body {
     background-color: aquamarine;
 }
 
-.calcButton {
+.calcButtonWrapper {
     flex-basis: 400px;
     flex-shrink: 0;
     background-color: blueviolet;
     flex-grow: 1;
     border-radius: 0px 0px 25px 25px;
+    display: flex;
+    flex-flow: wrap;
 }
 
 .screenValue {
@@ -53,7 +57,17 @@ body {
     align-items: center;
     font-family: monospace;
     letter-spacing: 3px;
-    font-size: 30px;
+    font-size: 35px;
     font-weight: 700;
     padding: 5px;
+}
+
+.calcButton {
+    background-color: brown;
+    height: 50px;
+    flex-grow: 1;
+}
+
+.calcButtonWrapper hr{
+    color: black;
 }
