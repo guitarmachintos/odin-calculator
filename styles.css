@@ -1,13 +1,16 @@
 * {
+    /* CSS Reset */
     margin: 0;
     padding: 0;
+    border: 0;
     box-sizing: border-box;
 }
 
 body {
     /* for vertical centering the calc */
     min-height: 100vh;
-    /*for expanding calc screen when there are lot of numbers*/
+    /*for preventing content bigger than container when resized
+    (limited scrolling)*/
     min-width: 475px;
     display: flex;
     align-items: center;
@@ -15,42 +18,27 @@ body {
 }
 
 .contentWrapper {
-    flex-shrink: 0;
     width: 475px;
     min-height: 750px;
     background-color: #045298;
     border-radius: 10px 10px 25px 25px;
-    padding: 20px 15px 30px;
+    padding: 20px 0px 30px;
     display: flex;
     flex-direction: column;    
 }  
 
 .calcScreen {
     flex-basis: 75px;
-    background-color: aqua;
+    background-color: #424440;
     border-radius: 10px 10px 0px 0px;
     padding: 10px 20px;
+    margin: 0 15px;
     display: flex;
-}
-
-.calcModel {
-    flex-basis: 100px;
-    background-color: aquamarine;
-}
-
-.calcButtonWrapper {
-    flex-basis: 400px;
-    flex-shrink: 0;
-    background-color: blueviolet;
-    flex-grow: 1;
-    border-radius: 0px 0px 25px 25px;
-    display: flex;
-    flex-flow: wrap;
 }
 
 .screenValue {
     flex-grow: 1;
-    background-color: gray;
+    background-color: #A5A4A4;
     word-break: break-all;
     display: flex;
     justify-content: flex-end;
@@ -60,14 +48,105 @@ body {
     font-size: 35px;
     font-weight: 700;
     padding: 5px;
+    border-radius: 10px;
+}
+
+.calcModel {
+    flex-basis: 115px;
+    margin: 10px 0;
+    /* background-color: aquamarine; */
+    display: flex;
+    padding: 10px 20px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.calcHistory {
+    flex-basis: 60%;
+    height: 100%;
+    background-color: #A5A4A4;
+    display: flex;
+    justify-content: flex-end;
+    text-align: end;
+    padding: 5px 10px;
+    font-family: monospace;
+}
+
+.rightModelWrapper {
+    margin-left: 10px;
+    flex-basis: 10%;
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.rightModelWrapper button {
+    cursor: pointer;
+    background-color: #C62D36;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    align-self: stretch;
+}
+
+.rightModelWrapper button:hover {
+    filter: brightness(85%);
+}
+
+.credit a{
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+}
+
+.credit a:hover {
+    text-decoration: underline;
+}
+
+.github-logo {
+    max-width: 20px;
+    max-height: 20px;
+    filter: invert(1);
+}
+
+.calcButtonWrapper {
+    flex-basis: 500px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin: 0 15px;
+    border-radius: 0px 0px 25px 25px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-evenly;
+    gap: 5%;
+    padding: 10px 20px;
+    border: 1px solid black;
 }
 
 .calcButton {
-    background-color: brown;
-    height: 50px;
+    background-color: white;
+    height: 75px;
     flex-grow: 1;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 900;
+    border-radius: 10px;
 }
 
-.calcButtonWrapper hr{
-    color: black;
+.calcButton:hover {
+    filter: brightness(85%);
+    cursor: pointer;
+}
+
+
+.calcButton.symbols {
+    background-color: #C62D36;
+    color: white;
 }
