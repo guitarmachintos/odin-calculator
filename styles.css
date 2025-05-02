@@ -97,6 +97,11 @@ body {
     filter: brightness(85%);
 }
 
+.rightModelWrapper button:active {
+    filter: brightness(100%);
+    cursor: default;
+}
+
 .credit a{
     font-size: 18px;
     color: white;
@@ -135,14 +140,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 900;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .calcButton:hover {
     filter: brightness(85%);
-    cursor: pointer;
+}
+
+.calcButton:active {
+    filter: brightness(100%);
+    cursor: default;
 }
 
 
