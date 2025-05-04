@@ -50,19 +50,25 @@ const SYMBOL_TIMES = '×';
 function evalSingleExp(a, operator, b) {
     a = +a;
     b = +b;
+    let res;
     switch (operator) {
         case '+': 
-            return a + b;
+            res = a + b;
+            break;
         case '-':
-            return a - b;
+            res = a - b;
+            break;
         case SYMBOL_DIVIDE:
-            return a / b;
+            res = a / b;
+            break;
         case SYMBOL_TIMES:
-            return a * b;    
+            res = a * b;
+            break;  
         default:
             console.error("Invalid operator");
             break;
     }
+    return Math.round((res + Number.EPSILON) * 100) / 100
 }
 
 function evalEveryOperator(tokens, operator){
@@ -89,20 +95,40 @@ function evalWholeExp(textExp) {
     return tokens[0];
 }
 
-function evalAllParentheses(testExp){
+function evalAllParentheses(textEXp){
+    if(!checkParentheses(textEXp)){
+        return "Parentheses ERROR!";
+    }
     while(true){
-        let parIndex = testExp.lastIndexOf('(');
-        if (parIndex === -1) {
+        let parIndexOpen = textEXp.lastIndexOf('(');
+        if (parIndexOpen === -1) {
             break;
         }
-        
+        let parIndexClose = textEXp.indexOf(')', parIndexOpen);
+        if((parIndexClose - parIndexOpen) === 1){
+            // textEXp = ((parIndexOpen !== 0) ? textEXp.slice(0, parIndexOpen) : '') + 
+            //           textEXp.slice(parIndexOpen+1, parIndexClose) +
+            //           ((parIndexClose !== textEXp.length-1) ? textEXp.slice(parIndexClose+1, textEXp.length) : '')
+                textEXp = textEXp.slice(0, parIndexOpen) + 
+                          textEXp.slice(parIndexClose+1, textEXp.length);
+                
+            continue;
+        }
+        else{
+            let expRes = evalWholeExp(textEXp.slice(parIndexOpen+1, parIndexClose));
+            textEXp = textEXp.slice(0, parIndexOpen) + expRes +
+                          textEXp.slice(parIndexClose+1, textEXp.length);
+        }        
     }
+    return evalWholeExp(textEXp);
 }
 
 const buttonWrapper = document.querySelector(".calcButtonWrapper");
 const screenValue = document.querySelector(".screenValue");
 const calcHistory = document.querySelector(".calcHistory");
 const copyButton = document.querySelector(".rightModelWrapper button")
+const opList = '-+' + SYMBOL_DIVIDE + SYMBOL_TIMES;
+
 
 screenValue.textContent = screenValue.textContent.trim();
 
@@ -112,13 +138,17 @@ buttonWrapper.addEventListener("click", (e) => {
         let charButton = e.target.textContent.trim();
         if(e.target.classList.contains("number") || charButton === '('||
            charButton === ')'){            
+            if(opList.includes(screenValue.textContent.at(-1))){
+                screenValue.textContent += ' ';
+            }            
             screenValue.textContent += e.target.textContent;
         }
         else if(e.target.classList.contains("operator")){
-            screenValue.textContent += ' ' + e.target.textContent + ' ';
+            addOperator(e.target.textContent);
+            // screenValue.textContent += ' ' + e.target.textContent + ' ';
         }
         else if(e.target.classList.contains('function')){
-            console.log(e.target.textContent.trim());
+            // console.log(e.target.textContent.trim());
             switch (e.target.textContent.trim()) {
                 case 'AC':
                     screenValue.textContent = '';
@@ -126,13 +156,22 @@ buttonWrapper.addEventListener("click", (e) => {
                     break;
 
                 case 'backspace':
-                    console.log('eeoo');
-                    console.log(screenValue.textContent);
+                    if(screenValue.textContent.at(-1) === ' '){
+                        screenValue.textContent = screenValue.textContent.trimEnd();
+                    }
                     screenValue.textContent = screenValue.textContent.slice(0, screenValue.textContent.length-1);
+                    if(screenValue.textContent.at(-1) === ' '){
+                        screenValue.textContent = screenValue.textContent.trimEnd();
+                    }
                     break;
 
                 case '=':
-                    evalWholeExp(screenValue.textContent.trim());
+                    // if()
+                    let expResult = evalAllParentheses(screenValue.textContent.trim());
+                    calcHistory.innerText += screenValue.textContent.trim() + ' = ' + expResult;
+                    const linebreak = document.createElement('br');
+                    calcHistory.appendChild(linebreak);
+                    screenValue.textContent = expResult;
                     break;
 
                 default:
@@ -142,10 +181,55 @@ buttonWrapper.addEventListener("click", (e) => {
     }
     //for clicking right on the span element itself.
     else if(e.target.classList.contains("material-symbols-outlined")){
+        if(screenValue.textContent.at(-1) === ' '){
+            screenValue.textContent = screenValue.textContent.trimEnd();
+        }
         screenValue.textContent = screenValue.textContent.slice(0, screenValue.textContent.length-1);
+        if(screenValue.textContent.at(-1) === ' '){
+            screenValue.textContent = screenValue.textContent.trimEnd();
+        }
     }
 
 });
 
-copyButton.addEventListener('click', () => copyTextToClipboard(screenValue.textContent.trim()));
+copyButton.addEventListener('click', () => {
+    copyTextToClipboard(screenValue.textContent.trim());
+    alert('Value Copied!');
+});
+
+function checkParentheses(testExp) {
+    testExp = testExp.trim();
+    let numOpen = 0;
+    let numClose = 0;
+    for (const c of testExp) {
+        if(c === '('){
+            numOpen++;
+        }
+        if(c === ')'){
+            if(numOpen <= numClose){
+                return false;
+            }
+            numClose++;
+        }
+    }
+    if(numOpen !== numClose){
+        return false;
+    }
+    return true;
+}
+
+function addOperator(operator){
+    let numList = '1234567890';
+    let opList = '-+' + SYMBOL_DIVIDE + SYMBOL_TIMES;
+    if(numList.includes(screenValue.textContent.trim().at(-1))){
+        screenValue.textContent += ' ' + operator + ' ';   
+    }
+    else if(opList.includes(screenValue.textContent.trim().at(-1))){
+        if(screenValue.textContent.at(-1) === ' '){
+            screenValue.textContent = screenValue.textContent.trimEnd();
+        }
+        screenValue.textContent = screenValue.textContent.slice(0, screenValue.textContent.length-1);
+        screenValue.textContent += operator + ' ';
+    }
+}
 

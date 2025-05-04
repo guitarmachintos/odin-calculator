@@ -43,12 +43,14 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    text-align: end;
     font-family: monospace;
     letter-spacing: 3px;
     font-size: 35px;
     font-weight: 700;
     padding: 5px;
     border-radius: 10px;
+    white-space: pre;
 }
 
 .calcModel {
@@ -70,6 +72,7 @@ body {
     text-align: end;
     padding: 5px 10px;
     font-family: monospace;
+    font-size: 15px;
 }
 
 .rightModelWrapper {
