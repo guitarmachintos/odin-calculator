@@ -85,18 +85,26 @@ function evalEveryOperator(tokens, operator){
 
 function evalWholeExp(textExp) {
     let tokens = textExp.split(' ');
+    let maxIter = tokens.length*2;
+    let curIter = 0;
     while (tokens.length > 1){
         //Evaluate all multiplication and division first
+        if(curIter > maxIter){
+            isError = true;
+            return 'ERROR PRESS AC!';
+        }
         evalEveryOperator(tokens, SYMBOL_TIMES);
         evalEveryOperator(tokens, SYMBOL_DIVIDE);
         evalEveryOperator(tokens, '+');
         evalEveryOperator(tokens, '-');
+        curIter++;
     }
     return tokens[0];
 }
 
 function evalAllParentheses(textEXp){
     if(!checkParentheses(textEXp)){
+        isError = true;
         return "Parentheses ERROR!";
     }
     while(true){
@@ -128,6 +136,7 @@ const screenValue = document.querySelector(".screenValue");
 const calcHistory = document.querySelector(".calcHistory");
 const copyButton = document.querySelector(".rightModelWrapper button")
 const opList = '-+' + SYMBOL_DIVIDE + SYMBOL_TIMES;
+let isError = false;
 
 
 screenValue.textContent = screenValue.textContent.trim();
@@ -135,6 +144,9 @@ screenValue.textContent = screenValue.textContent.trim();
 buttonWrapper.addEventListener("click", (e) => {
     // console.log(e.target.classList);
     if(e.target.classList.contains("calcButton")){
+        if(isError && e.target.textContent.trim() !== 'AC'){
+            return;
+        }
         let charButton = e.target.textContent.trim();
         if(e.target.classList.contains("number") || charButton === '('||
            charButton === ')'){            
@@ -151,11 +163,15 @@ buttonWrapper.addEventListener("click", (e) => {
             // console.log(e.target.textContent.trim());
             switch (e.target.textContent.trim()) {
                 case 'AC':
+                    isError = false;
                     screenValue.textContent = '';
                     calcHistory.textContent = '';
                     break;
 
                 case 'backspace':
+                    if(isError){
+                        break;
+                    }
                     if(screenValue.textContent.at(-1) === ' '){
                         screenValue.textContent = screenValue.textContent.trimEnd();
                     }
@@ -166,7 +182,9 @@ buttonWrapper.addEventListener("click", (e) => {
                     break;
 
                 case '=':
-                    // if()
+                    if(isError){
+                        break;
+                    }
                     let expResult = evalAllParentheses(screenValue.textContent.trim());
                     calcHistory.innerText += screenValue.textContent.trim() + ' = ' + expResult;
                     const linebreak = document.createElement('br');
@@ -180,7 +198,7 @@ buttonWrapper.addEventListener("click", (e) => {
         }
     }
     //for clicking right on the span element itself.
-    else if(e.target.classList.contains("material-symbols-outlined")){
+    else if(e.target.classList.contains("material-symbols-outlined") && !isError){
         if(screenValue.textContent.at(-1) === ' '){
             screenValue.textContent = screenValue.textContent.trimEnd();
         }
