@@ -3,11 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  
+  <div class="calculatorWrapper">
+    <div class="top">
+
+    </div>
+
+    <div class="screenWrapper">
+      <div class="texture"></div>
+      <div class="screenOuter">
+        <div class="screenInner">
+          <div class="screen">
+            12345678.
+          </div>
+        </div>
+      </div>
+      <div class="texture"></div>
+    </div>
+
+    <div class="modelWrapper">
+      <div class="leftModel">
+        <p class="logTitle roboto-bold noSelect">
+          CALCULATIONS LOG
+        </p>
+        <div class="calculationLog">
+
+        </div>
+      </div>
+      <div class="rightModel">
+        <button class="roboto-bold">Copy Value</button>
+        <a href="https://github.com/guitarmachintos">guitarmachintos <img src="img/github-icon.svg" alt="githubIcon" width="20" id="github-icon"></a>
+      </div>
+    </div>
+
+    <div class="buttonsOuterWrapper">
+      <div class="buttonsInnerWrapper">
+        <button class="calcButtons operator">AC</button>
+        <button class="calcButtons operator">&lpar;</button>
+        <button class="calcButtons operator">&rpar;</button>
+        <button class="calcButtons operator">
+          <span class="material-symbols-outlined" style="font-size: 30px;">backspace</span>
+        </button>
+
+        <button class="calcButtons number">7</button>
+        <button class="calcButtons number">8</button>
+        <button class="calcButtons number">9</button>
+        <button class="calcButtons operator"><span style="font-family: 'Times New Roman', Times, serif; font-size: 35px;">÷</span></button>
+
+        <button class="calcButtons number">4</button>
+        <button class="calcButtons number">5</button>
+        <button class="calcButtons number">6</button>
+        <button class="calcButtons operator">&#x2716;</button>
+
+        <button class="calcButtons number">1</button>
+        <button class="calcButtons number">2</button>
+        <button class="calcButtons number">3</button>
+        <button class="calcButtons operator"><span style="margin-bottom: 9px; font-size: 30px;">&ndash;</span></button>
+
+        <button class="calcButtons number">0</button>
+        <button class="calcButtons number">.</button>
+        <button class="calcButtons operator"><span style="font-size: 25px; margin-bottom: 2px;">=</span></button>
+        <button class="calcButtons operator"><span style="font-size: 30px; margin-bottom: 3px;">+</span></button>
+      </div>
+      <div class="referenceLink roboto-bold">
+        <div>design taken from</div>
+        <a href="https://www.amazon.com/Texas-Instruments-Teacher-TI-108TK-Calculator/dp/B006NYY83C">
+          here <span class="material-symbols-outlined" style="font-size: 18px;">link_2</span>
+        </a>
+      </div> 
+    </div>
+  </div>
 </body>
 </html>
