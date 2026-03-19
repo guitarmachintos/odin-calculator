@@ -132,7 +132,7 @@ body {
   row-gap: 5px;
 }
 
-.leftModel p {
+.logTitle {
   margin-left: 1px;
 
   font-size: 16px;
@@ -144,6 +144,14 @@ body {
   flex: 1;
 
   background-color: rgb(175 175 175);
+  overflow: auto;
+}
+
+.calculationLog p {
+  text-align: end;
+  border-bottom: 1px solid black;
+  padding-right: 10px;
+  word-break: break-all;
 }
 
 .rightModel {
@@ -294,4 +302,14 @@ body {
 
 .calcButtons:nth-child(4n + 3) {
   margin-right: 30px;
+}
+
+.calcButtons.operator.disabled {
+  cursor: default;
+  background-color: rgb(146, 29, 37);;
+}
+
+.calcButtons.number.disabled {
+  cursor: default;
+  background-color: rgb(202, 202, 202);
 }
